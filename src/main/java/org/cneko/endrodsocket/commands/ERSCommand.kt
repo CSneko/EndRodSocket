@@ -7,6 +7,7 @@ import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands.literal
 import net.minecraft.commands.Commands.argument
 import net.minecraft.network.chat.Component
+import org.cneko.endrodsocket.socket.Sockets
 import org.cneko.endrodsocket.util.PortChecker
 
 class ERSCommand {
@@ -32,6 +33,8 @@ class ERSCommand {
                 return 0
             }
             // 启动socket服务器
+            Sockets.setServer(p)
+            context!!.source.sendSystemMessage(Component.translatable("command.esr.port.success", p))
             return 1
         }
     }

@@ -1,3 +1,4 @@
 {
-  "command.esr.port.used":"The port already in use"
+  "command.esr.port.used":"The port already in use",
+  "command.esr.port.success": "Listening on port %s"
 }

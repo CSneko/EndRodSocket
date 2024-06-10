@@ -1,3 +1,4 @@
 {
-  "command.esr.port.used":"端口已被占用"
+  "command.esr.port.used":"端口已被占用",
+  "command.esr.port.success": "正在监听端口%s"
 }
