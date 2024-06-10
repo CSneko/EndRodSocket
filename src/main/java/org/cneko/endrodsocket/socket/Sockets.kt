@@ -16,6 +16,7 @@ class Sockets {
                 // 在新线程中启动服务器
                 val t = Thread {
                     server = SocketServer(port)
+                    server?.handle()
                 }
                 t.start()
                 logger.info("Server started on port $port")

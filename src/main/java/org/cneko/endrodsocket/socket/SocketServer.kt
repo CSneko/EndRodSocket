@@ -7,19 +7,17 @@ import java.io.InputStreamReader
 import java.io.BufferedReader
 import java.io.OutputStreamWriter
 import java.io.PrintWriter
+import java.util.concurrent.ConcurrentLinkedQueue
 
 import org.cneko.endrodsocket.EndRodSocket.logger
 class SocketServer(port: Int) {
+    private val messageQueue = ConcurrentLinkedQueue<String>()
     private val serverSocket: ServerSocket = ServerSocket(port)
     private var dataToSend: String = ""
-    init {
-        handle()
+    fun sendData(data: String) {
+        messageQueue.add(data)
     }
-    fun sendData(data: String){
-        dataToSend = data
-    }
-
-    private fun handle() {
+    fun handle() {
         while (true) {
             val socket = serverSocket.accept()
             logger.info("Client connected: ${socket.inetAddress.hostAddress}")
@@ -38,14 +36,16 @@ class SocketServer(port: Int) {
         override fun run() {
             try {
                 while (true) {
-                    // 读取来自客户端的数据（如果客户端断开连接，readLine()将返回null，此时可以退出循环）
+                    // 检查消息队列
+                    while (!messageQueue.isEmpty()) {
+                        val message = messageQueue.poll() as? String ?: continue
+                        printWriter.println(message)
+                        printWriter.flush()
+                    }
+
+                    // 读取客户端数据
                     val dataFromClient = bufferedReader.readLine() ?: break
-
-
-                    // 处理客户端数据
                     val response = processClientData(dataFromClient)
-
-                    // 向客户端发送响应
                     printWriter.println(response)
                     printWriter.flush()
                 }
@@ -61,7 +61,7 @@ class SocketServer(port: Int) {
         fun processClientData(data: String): String {
             // 发送数据
             val to:String = dataToSend
-            dataToSend = ""
+            dataToSend = "12345"
             return to
         }
     }

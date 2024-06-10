@@ -25,7 +25,7 @@ class UseOnPlayerEvent {
                 .setTargetPlayer(player.name.string)
                 .setTargetPlayerNbt(player.tags.toString())
                 .setItem(stack.item.toString())
-                .setItemNbt(stack.tags.toString())
+                .setItemNbt(stack.tags.toList().toString())
                 .setType("attack")
                 .setTimes(1)
                 .build()

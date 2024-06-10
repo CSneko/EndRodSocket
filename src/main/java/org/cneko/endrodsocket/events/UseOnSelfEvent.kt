@@ -7,10 +7,11 @@ import org.cneko.endrodsocket.socket.DataBuilder
 import org.cneko.endrodsocket.socket.Sockets
 import org.cneko.more_end_rod.api.EndRodEvents
 import java.util.UUID
+import java.util.HashMap
 
 class UseOnSelfEvent {
     companion object {
-        val timer:Map<UUID,Int> = mapOf()
+        val timer:HashMap<UUID,Int> = HashMap<UUID,Int>()
         fun init() {
             EndRodEvents.USE_ON_SELF.register(EndRodEvents.UseOnSelf { stack, user ->
                 onUse(stack, user)
@@ -22,12 +23,12 @@ class UseOnSelfEvent {
             // 每20tick发送一次数据
             val uuid = user.uuid
             if(!timer.containsKey(uuid)){
-                timer.plus(Pair(uuid,1))
+                timer.put(uuid,1)
                 return
             }
             // 计数器已经到达20
-            if(timer[uuid]!! >= 20){
-                timer.plus(Pair(uuid,1))
+            if((timer[uuid] ?: 0) >= 20){
+                timer.put(uuid,1)
                 // 构建数据
                 val data = DataBuilder()
                     .setPlayer(user.name.string)
@@ -35,7 +36,7 @@ class UseOnSelfEvent {
                     .setTargetPlayer(user.name.string)
                     .setTargetPlayerNbt(user.tags.toString())
                     .setItem(stack.item.toString())
-                    .setItemNbt(stack.tags.toString())
+                    .setItemNbt(stack.tags.toList().toString())
                     .setType("self")
                     .setTimes(20)
                     .build()
@@ -43,7 +44,7 @@ class UseOnSelfEvent {
                 Sockets.server?.sendData(data)
                 return
             }
-            timer.plus(Pair(uuid,timer[uuid]!!+1))
+            timer[uuid] = (timer[uuid]?.plus(1) ?: 0)
 
         }
     }
