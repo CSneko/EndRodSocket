@@ -11,6 +11,8 @@
 - [More End Rod](https://github.com/CSneko/More_End_Rod)
 - [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin)
 
-**你可能需要使用支持的翻译层才能完整使用此模组**
+**你可能需要使用支持的翻译层才能完整使用此模组，请查看[用户文档](https://github.com/CSneko/EndRodSocket/tree/master/docs/user.md)**
 ### 对于开发者
-如果你需要开发翻译层，可以参考这个示例（还没做）
+如果你需要开发翻译层，请阅读[开发文档](https://github.com/CSneko/EndRodSocket/tree/master/docs/develop.md)，同时建议参考[这个示例](https://github.com/CSneko/EndRodSocket/tree/master/example)。
+
+如果你制作了翻译层，可以在issues里告诉我。

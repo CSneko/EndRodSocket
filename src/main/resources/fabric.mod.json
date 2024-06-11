@@ -24,6 +24,8 @@
   "depends": {
     "fabricloader": "*",
     "fabric": "*",
-    "minecraft": ">=1.20"
+    "minecraft": ">=1.20",
+    "ctlib":"*",
+    "more_end_rod":"*"
   }
 }

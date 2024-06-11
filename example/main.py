@@ -14,7 +14,7 @@ def receive_and_process_messages(client_socket):
         while buffer:
             try:
                 # 尝试找到一个JSON对象的边界
-                idx = buffer.index(b'}') + 1  # 假设消息以'}'结尾
+                idx = buffer.index(b'}') + 1 
                 
                 # 提取并尝试解析这一段
                 message = buffer[:idx]
@@ -22,10 +22,14 @@ def receive_and_process_messages(client_socket):
                 j: dict = json.loads(message.decode('utf-8'))
                 
                 player: str = j["player"]
+                target: str = j["targetPlayer"]
                 item: str = j["item"]
                 times: int = j["times"]
-                print(f"{player} 使用 {item} 紫薇了 {times} 次")
-                print(f"物品nbt: {j.get('itemNbt', '无')}")
+                tp: str = j["type"]
+                if tp == "self":
+                    print(f"{player} 用 {item} 紫薇了 {times} 次")
+                if tp == "attack":
+                    print(f"{player} 使用 {item} 艹了 {target} {times} 次")
             
             except ValueError:  # JSONDecodeError 的父类，用于捕捉解析错误
                 # 如果没有找到完整的JSON对象或解析失败，则跳出本次尝试，等待更多数据
