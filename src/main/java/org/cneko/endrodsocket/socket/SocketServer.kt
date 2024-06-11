@@ -36,19 +36,23 @@ class SocketServer(port: Int) {
         override fun run() {
             try {
                 while (true) {
-                    // 检查消息队列
-                    while (!messageQueue.isEmpty()) {
-                        val message = messageQueue.poll() as? String ?: continue
-                        printWriter.println(message)
-                        printWriter.flush()
-                    }
-
                     // 读取客户端数据
+                    /*
                     val dataFromClient = bufferedReader.readLine() ?: break
                     val response = processClientData(dataFromClient)
                     printWriter.println(response)
                     printWriter.flush()
+                    */
+
+                    // 检查并发送消息队列中的消息
+                    var message: String? = messageQueue.poll()
+                    while (message != null) {
+                        printWriter.println(message)
+                        printWriter.flush()
+                        message = messageQueue.poll() // 直接在此处再次尝试poll下一个消息
+                    }
                 }
+
             } catch (e: Exception) {
                 logger.error("Error handling client: ${e.message}")
             } finally {
